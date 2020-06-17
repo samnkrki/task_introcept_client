@@ -4,6 +4,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { Modal } from 'react-bootstrap'
 import AddData from './addData';
 import { useHistory } from 'react-router-dom';
+import { baseUrl, getDataUrl } from '../constants/url';
 
 export default function ListData() {
     const [userList, setUserList] = useState([]);
@@ -20,7 +21,7 @@ export default function ListData() {
         lastPageText: 'Last',
     }
     useEffect(() => {
-        const url = "http://localhost:3001"
+        const url = baseUrl + getDataUrl
         fetchList(url)
     }, [])
 
@@ -61,18 +62,7 @@ export default function ListData() {
             dataField: 'phone',
             text: 'Phone Number'
         },
-        {
-            dataField: 'nationality',
-            text: 'Nationality'
-        },
-        {
-            dataField: 'educationBackground',
-            text: 'Education Background'
-        },
-        {
-            dataField: 'dob',
-            text: 'Date of Birth'
-        },
+
         {
             dataField: 'address',
             text: 'Address'
@@ -93,7 +83,6 @@ export default function ListData() {
     ];
 
     const clickToSeeAll = (cellContent, row) => {
-        // console.log(row, cellContent)
         handleShow(row)
     }
     const navigateToLists = () => {
