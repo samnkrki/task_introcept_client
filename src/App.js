@@ -10,7 +10,7 @@ function App() {
     <Router>
       <div className="App">
         <Route path="/add" component={AddData} />
-        <Route path="/users" component={ListData} />
+        <Route path="/list" component={ListData} />
         <Redirect from='*' to='/add' />
       </div>
     </Router>
