@@ -37,7 +37,7 @@ export default function ListData() {
                 method: 'GET',
                 headers: headers
             })
-            let res = await response.json()
+            let res = response.json()
             res
                 .then(data => {
                     if (data.success === true) {
