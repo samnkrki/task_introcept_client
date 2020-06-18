@@ -43,18 +43,15 @@ export default function AddData(props) {
             let res = response.json()
             res.then(result => {
                 if (result.success) {
-                    // alert form submit success
                     alert.success("Data saved successfully")
                     setUser(userData)
                 }
                 else {
                     alert.error("Unable to save. Please try again")
                 }
-
             })
                 .catch(err => {
                     alert.error("Something went wrong. Please try again")
-
                 })
         } else {
             alert.error("Please check the invalid fields before submitting")
