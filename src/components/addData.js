@@ -30,7 +30,7 @@ export default function AddData(props) {
             setDetailPage(true)
             setUser({ ...props.details })
         }
-    })
+    }, [])
     const checkValidityAndSubmit = async (event) => {
         event.preventDefault()
         if (validateForm()) {
