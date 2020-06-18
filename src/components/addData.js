@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import { Jumbotron, Alert, Container, Col } from 'react-bootstrap';
-import { baseUrl, saveDataUrl } from '../constants/url';
+import { Container, Col } from 'react-bootstrap';
+import { baseUrl, saveDataUrl, headers } from '../constants/url';
 import { nationalities } from '.././constants/nationalities'
 import { validateEmail, validatePhone } from '../helpers/validityHelpers';
+import { useAlert } from 'react-alert'
 
 export default function AddData(props) {
     const userData = {
@@ -18,42 +19,44 @@ export default function AddData(props) {
         prefModeContact: "",
         address: "",
     }
-    const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(userData)
     const [errors, setErrors] = useState({})
     const [detailPage, setDetailPage] = useState(false)
     const history = useHistory();
+    const alert = useAlert()
     useEffect(() => {
         if (props.details) {
             setDetailPage(true)
             setUser({ ...props.details })
         }
-    }, [])
+    })
     const checkValidityAndSubmit = async (event) => {
         event.preventDefault()
-        setLoading(true)
         if (validateForm()) {
             const url = baseUrl + saveDataUrl
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                headers: headers,
                 body: JSON.stringify(user)
             })
             let res = response.json()
             res.then(result => {
                 if (result.success) {
                     // alert form submit success
+                    alert.success("Data saved successfully")
+                    setUser(userData)
                 }
-                setLoading(false)
+                else {
+                    alert.error("Unable to save. Please try again")
+                }
+
             })
                 .catch(err => {
-                    console.log(err)
-                    setLoading(false)
+                    alert.error("Something went wrong. Please try again")
+
                 })
         } else {
+            alert.error("Please check the invalid fields before submitting")
             return
         }
 
@@ -62,12 +65,15 @@ export default function AddData(props) {
     const validateForm = () => {
         let errors = {}
         let formIsValid = true
+        if (user.name === "") {
+            errors['name'] = "This field is required"
+        }
         if (!validateEmail(user.email)) {
-            errors['email'] = "Email is invalid. Please enter a valid one."
+            errors['email'] = "Email is invalid. Please enter a valid one"
             formIsValid = false
         }
         if (!validatePhone(user.phone)) {
-            errors['phone'] = "Phone number is not valid."
+            errors['phone'] = "Phone number is not valid"
             formIsValid = false
         }
         setErrors({ ...errors })
@@ -75,7 +81,7 @@ export default function AddData(props) {
     }
 
     const navigateToLists = () => {
-        history.push("/users");
+        history.push("/list");
     }
 
     return (
@@ -84,7 +90,7 @@ export default function AddData(props) {
                 <form className="" onSubmit={(e) => checkValidityAndSubmit(e)}>
                     <h2 hidden={detailPage}>Add Details here</h2>
                     <div className="form-group">
-                        <label className="label" htmlFor="name">Full Name</label>
+                        <label className="label" htmlFor="name">Full Name *</label>
                         <input type="text" className="form-control" value={user.name}
                             onChange={event => setUser({ ...user, name: event.target.value })}
                             name="name" disabled={detailPage} />
