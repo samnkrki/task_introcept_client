@@ -4,7 +4,7 @@ import { Container, Col } from 'react-bootstrap';
 import { baseUrl, saveDataUrl, headers } from '../constants/url';
 import { nationalities } from '.././constants/nationalities'
 import { validateEmail, validatePhone } from '../helpers/validityHelpers';
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
 
 export default function AddData(props) {
     const userData = {
@@ -19,11 +19,11 @@ export default function AddData(props) {
         prefModeContact: "",
         address: "",
     }
+    const alert = useAlert();
     const [user, setUser] = useState(userData)
     const [errors, setErrors] = useState({})
     const [detailPage, setDetailPage] = useState(false)
     const history = useHistory();
-    const alert = useAlert()
     useEffect(() => {
         if (props.details) {
             setDetailPage(true)
