@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.label {
+  font-weight: bold;
+}
+input:invalid {
+  border: 2px solid red;
+}
+.errorMsg {
+  color: #cc0000;
+  margin-bottom: 12px;
+}
