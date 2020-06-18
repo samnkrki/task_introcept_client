@@ -91,7 +91,7 @@ export default function AddData(props) {
         const value = e.target.value
         const changedObject = {}
         changedObject[attributeName] = value
-        console.log(user, changedObject)
+        // console.log(user, changedObject)
         setUser({ ...user, ...changedObject })
     }
 
