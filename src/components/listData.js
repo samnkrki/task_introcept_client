@@ -4,14 +4,19 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { Modal } from 'react-bootstrap'
 import AddData from './addData';
 import { useHistory } from 'react-router-dom';
-import { baseUrl, getDataUrl } from '../constants/url';
+import { baseUrl, getDataUrl, headers } from '../constants/url';
+import { useAlert } from 'react-alert';
 
 export default function ListData() {
     const [userList, setUserList] = useState([]);
     const [show, setShow] = useState(false);
     const [dataToShow, setDataToShow] = useState({})
     const handleClose = () => setShow(false);
-    const handleShow = (details) => { setShow(true); setDataToShow(details) };
+
+    const handleShow = (details) => {
+        setShow(true);
+        setDataToShow(details)
+    };
     const history = useHistory()
     const options = {
         paginationSize: 4,
@@ -20,29 +25,30 @@ export default function ListData() {
         nextPageText: 'Next',
         lastPageText: 'Last',
     }
+    const alert = useAlert()
     useEffect(() => {
         const url = baseUrl + getDataUrl
         fetchList(url)
-    }, [])
+    })
 
     const fetchList = async (url) => {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        let res = response.json()
-        res
-            .then(data => {
-                if (data.success == true) {
-                    setUserList([...data.data])
-                }
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: headers
             })
-            .catch(err => {
-                console.log(err)
-            })
+            let res = await response.json()
+            res
+                .then(data => {
+                    if (data.success === true) {
+                        setUserList([...data.data])
+                    } else {
+                        alert.info(data.message)
+                    }
+                })
+        } catch (error) {
+            // console.log(error)
+        }
     }
 
     const columns = [
@@ -88,6 +94,7 @@ export default function ListData() {
     const navigateToLists = () => {
         history.push("/add");
     }
+
     return (
         <>
             <BootstrapTable
