@@ -38,31 +38,43 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
+### Explanation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+It contains two components to add information and the other one to list that information. Add information page is also used by list information page as a modal to show details of the listed data. Upon saving fields that are required are checked explicitly through the js code and error message is returned when the conditions are not met. Only upon success in the test, the api is called to save the data. The data is displayed in a list page which contains few fields from the total available fields. To view all the data, there is a modal that contains details(same add page with values set to readable only). Each row has its own distinct button to view the details.
+#### Packages
+##### React alert and React alert template basic
+They are used to show alerts when saving data is successful or anytime there is occurrence of error.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### React bootstrap
+It is used to design the page, the input components and the button that add data. The list page includes modal which is a part of this package.
 
-### Code Splitting
+##### React bootstrap table next and React bootstrap table2 paginator
+They work in tandem with one another. React bootstrap table is used to show the list of data from the server side in a table format. The table has a paginator which is implemented through the latter package.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+##### Serve
+This package is used when you are deploying to heroku. Since react projects need to serve static files that are created from the build script, the serve package tells us which file to display when the code is run.
 
-### Analyzing the Bundle Size
+#### CI/CD Pipeline
+##### Wercker
+It is a continuous delivery platform that runs all the scripts listed in your local wercker.yml code. You can place any scripts you want to run after the code is pushed to github and it runs everything. With the help of this, builds and testing processes and other processes can be automated.
+Steps:
+1. Go to the wercker website and set up your account. Click on the new application on the dashboard and add your code repo. Github is an option among others. Select the intended repository and it prompts you to add the wercker.yml file to your local code and push it to git if your code lacks it. You can choose your project type to generate a yml file dynamically. For javascript projects, choose nodejs.
+2. You are done. Once you push the code on git, the wercker runs automated tasks.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+#### Code Quality Check
+##### Codeclimate
+Codeclimate checks your code for various malpractices including duplicates, complexity and the standard. Once your repo is run through code climate, it gives you a result with "smelly codes", duplicate ones with a maintainability index. You can choose between various filters to check the problem areas in your code.
 
-### Making a Progressive Web App
+#### Deployment with heroku
+If you have the heroku cli, you can repeat the following steps to deploy.
+1. Go to your project folder and open a terminal.
+2. Run "heroku create". It creates a remote url and origin for heroku just like a git. 
+3. Now you just have to push the code to the origin which is heroku in our case. The command is "git push heroku master"
+4. You are done.
+5. If you want to rename your app(because heroku gives a random name to your app), you can use "heroku apps: rename NEWNAME" from the project folder.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
+<!-- You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+To learn React, check out the [React documentation](https://reactjs.org/). -->
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
